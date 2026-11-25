@@ -1,0 +1,63 @@
+{
+  "schema": "awesome-os-holo-sdk-manifest-v1",
+  "abiMagic": "0x33564742",
+  "casLayout": "v11",
+  "protocols": {
+    "sourceOfTruth": "repository://",
+    "projection": "project://"
+  },
+  "core": [
+    {
+      "id": "holo-compiler",
+      "role": "compiler-and-docs-hub",
+      "repository": "repository://github.com/awesome-os/holo-compiler@main",
+      "docs": "https://github.com/awesome-os/holo-compiler/tree/main/docs"
+    },
+    {
+      "id": "holo-pm",
+      "role": "package-manager",
+      "repository": "repository://github.com/awesome-os/holo-pm@main"
+    },
+    {
+      "id": "holo-wasi-host",
+      "role": "wasi-sandbox",
+      "repository": "repository://github.com/awesome-os/wasi-host@main"
+    },
+    {
+      "id": "holo-ffi",
+      "role": "v11-ffi-binder",
+      "repository": "repository://github.com/awesome-os/b8g-ghost@main"
+    },
+    {
+      "id": "installer",
+      "role": "sovereign-installer",
+      "repository": "repository://github.com/awesome-os/installer@main"
+    },
+    {
+      "id": "models",
+      "role": "neuromorphic-and-llm-models",
+      "repository": "repository://github.com/awesome-os/models@main"
+    }
+  ],
+  "toolchainsAndRuntimes": [
+    { "id": "holo-node", "repository": "repository://github.com/awesome-os/node@main" },
+    { "id": "holo-pnpm", "repository": "repository://github.com/awesome-os/pnpm@main" },
+    { "id": "holo-rust", "repository": "repository://github.com/awesome-os/cargo@main" },
+    { "id": "holo-py", "repository": "repository://github.com/awesome-os/uv@main" },
+    { "id": "holo-libuv", "repository": "repository://github.com/awesome-os/libuv@main" },
+    { "id": "holo-go", "repository": "repository://github.com/awesome-os/go-lang@main" },
+    { "id": "holo-dart", "repository": "repository://github.com/awesome-os/dart@main" }
+  ],
+  "forgeAndPlatform": [
+    { "id": "gitlab-foss", "repository": "repository://github.com/awesome-os/gitlab-foss@main" },
+    { "id": "gitaly", "repository": "repository://github.com/awesome-os/gitaly@main" },
+    { "id": "gitlab-runner", "repository": "repository://github.com/awesome-os/gitlab-runner@main" },
+    { "id": "gitlab-shell", "repository": "repository://github.com/awesome-os/gitlab-shell@main" },
+    { "id": "gitlab-pages", "repository": "repository://github.com/awesome-os/gitlab-pages@main" },
+    { "id": "ory-polis", "repository": "repository://github.com/awesome-os/ory-polis@main" },
+    { "id": "sectium-browser", "repository": "repository://github.com/awesome-os/sectium-browser@main" },
+    { "id": "code-oss", "repository": "repository://github.com/awesome-os/code-oss@main" },
+    { "id": "wry", "repository": "repository://github.com/awesome-os/wry@main" },
+    { "id": "webui", "repository": "repository://github.com/awesome-os/webui@main" }
+  ]
+}

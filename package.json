@@ -1,0 +1,13 @@
+{
+  "name": "@awesome-os/holo-sdk",
+  "version": "0.1.0",
+  "description": "Unified Awesome-OS Holo SDK umbrella referencing all Holo core and sovereign runtime repositories via repository:// and project://",
+  "type": "module",
+  "main": "./index.mts",
+  "module": "./index.mts",
+  "types": "./index.mts",
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "test": "node --test holo-sdk.test.mts"
+  }
+}
