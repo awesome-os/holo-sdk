@@ -28,6 +28,22 @@ jobs:
           MAX_ASSET_MB: '250'
         run: node scripts/warm-global-cas.mts
 
+      - name: Commit versioned v11 index manifests directly into repo (only on diff)
+        run: |
+          mkdir -p index
+          cp dist/cas-v11-global-manifest.json index/cas-v11-global-manifest.json
+          cp dist/holo-compiler-lockfile.json index/holo-compiler-lockfile.json
+          cp dist/SHA512SUMS.txt index/SHA512SUMS.txt
+          git config user.name "awesome-os-cas-bot"
+          git config user.email "cas@awesome-os.com"
+          if ! git diff --quiet -- index/SHA512SUMS.txt 2>/dev/null || [ -n "$(git status --porcelain index/SHA512SUMS.txt)" ]; then
+            git add index/cas-v11-global-manifest.json index/holo-compiler-lockfile.json index/SHA512SUMS.txt
+            git commit -m "chore(v11-index): update versioned global v11 CAS manifests"
+            git push origin HEAD:main
+          else
+            echo "Global v11 SHA512SUMS unchanged — skipping empty commit."
+          fi
+
       - name: Publish rolling cas-v11-global release (Fastly CDN)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
