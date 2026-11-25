@@ -28,38 +28,17 @@ jobs:
           MAX_ASSET_MB: '250'
         run: node scripts/warm-global-cas.mts
 
-      - name: Commit versioned v11 index manifests directly into repo (only on diff)
+      - name: Commit versioned v11 index manifests directly into repo (only on digest diff)
         run: |
           mkdir -p index
           cp dist/cas-v11-global-manifest.json index/cas-v11-global-manifest.json
           cp dist/holo-compiler-lockfile.json index/holo-compiler-lockfile.json
-          cp dist/SHA512SUMS.txt index/SHA512SUMS.txt
           git config user.name "awesome-os-cas-bot"
           git config user.email "cas@awesome-os.com"
-          if ! git diff --quiet -- index/SHA512SUMS.txt 2>/dev/null || [ -n "$(git status --porcelain index/SHA512SUMS.txt)" ]; then
-            git add index/cas-v11-global-manifest.json index/holo-compiler-lockfile.json index/SHA512SUMS.txt
+          if ! git diff --quiet -- index/holo-compiler-lockfile.json 2>/dev/null || [ -n "$(git status --porcelain index/holo-compiler-lockfile.json)" ]; then
+            git add index/cas-v11-global-manifest.json index/holo-compiler-lockfile.json
             git commit -m "chore(v11-index): update versioned global v11 CAS manifests"
             git push origin HEAD:main
           else
-            echo "Global v11 SHA512SUMS unchanged — skipping empty commit."
-          fi
-
-      - name: Publish rolling cas-v11-global release (Fastly CDN)
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG="cas-v11-global"
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" \
-              dist/cas-v11-global-manifest.json \
-              dist/holo-compiler-lockfile.json \
-              dist/SHA512SUMS.txt \
-              --clobber
-          else
-            gh release create "$TAG" \
-              dist/cas-v11-global-manifest.json \
-              dist/holo-compiler-lockfile.json \
-              dist/SHA512SUMS.txt \
-              --title "Awesome-OS Global v11 CAS Index (Rolling)" \
-              --notes "Pre-warmed planetary-scale v11 CAS manifest, holo-compiler-lockfile.json, and SHA512SUMS.txt across all awesome-os/* repositories (B8G_ABI_MAGIC_V3 = 0x33564742)."
+            echo "Global v11 lockfile unchanged — skipping empty commit."
           fi

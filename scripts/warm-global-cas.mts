@@ -189,7 +189,6 @@ const lockfileDoc = {
   schema: 'holo-compiler-lockfile-v1',
   abiMagic: '0x33564742',
   casLayout: 'v11',
-  generatedAt: manifestDoc.generatedAt,
   dependencies: entries.map((e) => ({
     id: e.id,
     repo: e.repo,
@@ -203,11 +202,8 @@ const lockfileDoc = {
   })),
 };
 
-const sha512Sums = entries.map((e) => `${e.sha512}  ${e.repo}/${e.tag}/${e.filename}`).join('\n') + '\n';
-
 fs.writeFileSync(path.join(OUT_DIR, 'cas-v11-global-manifest.json'), JSON.stringify(manifestDoc, null, 2) + '\n', 'utf8');
 fs.writeFileSync(path.join(OUT_DIR, 'holo-compiler-lockfile.json'), JSON.stringify(lockfileDoc, null, 2) + '\n', 'utf8');
-fs.writeFileSync(path.join(OUT_DIR, 'SHA512SUMS.txt'), sha512Sums, 'utf8');
 
 console.log(
   JSON.stringify(
