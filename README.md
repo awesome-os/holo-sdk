@@ -30,3 +30,13 @@ node --test holo-sdk.test.mts
 - **Central Documentation:** [`awesome-os/holo-compiler/docs/`](https://github.com/awesome-os/holo-compiler/tree/main/docs)
 
 See [`holo-sdk.manifest.json`](./holo-sdk.manifest.json) and [`index.mts`](./index.mts) for the complete machine-readable SDK topology.
+
+## Quick Install & Run (Windows / Linux / macOS)
+
+```sh
+# Install / hydrate from v11 CAS via holo-pm
+holo-pm install repository://github.com/awesome-os/holo-sdk@main
+
+# Or project & run directly via holo-project (0-byte hardlink)
+holo-project "project://node/holo-sdk?from=repository://github.com/awesome-os/holo-sdk@main"
+```
