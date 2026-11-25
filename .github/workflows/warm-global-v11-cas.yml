@@ -1,0 +1,49 @@
+name: Warm Global v11 CAS CDN
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  warm-global-v11-cas:
+    name: Pre-warm Global v11 CAS Manifest & Lockfile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout holo-sdk
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22+
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Stream-hash all awesome-os/* releases into Global v11 CAS manifest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWESOME_OS_ORG: awesome-os
+          MAX_ASSET_MB: '250'
+        run: node scripts/warm-global-cas.mts
+
+      - name: Publish rolling cas-v11-global release (Fastly CDN)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="cas-v11-global"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" \
+              dist/cas-v11-global-manifest.json \
+              dist/holo-compiler-lockfile.json \
+              dist/SHA512SUMS.txt \
+              --clobber
+          else
+            gh release create "$TAG" \
+              dist/cas-v11-global-manifest.json \
+              dist/holo-compiler-lockfile.json \
+              dist/SHA512SUMS.txt \
+              --title "Awesome-OS Global v11 CAS Index (Rolling)" \
+              --notes "Pre-warmed planetary-scale v11 CAS manifest, holo-compiler-lockfile.json, and SHA512SUMS.txt across all awesome-os/* repositories (B8G_ABI_MAGIC_V3 = 0x33564742)."
+          fi
