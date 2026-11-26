@@ -1,0 +1,15 @@
+{
+  "schema": "holo-ci.v1",
+  "name": "holo-sdk",
+  "kind": "control-plane",
+  "tests": [
+    "node --test holo-sdk.test.mts bootstrap/selfhost-fixedpoint.test.mts"
+  ],
+  "docs": [
+    "README.md"
+  ],
+  "guards": {
+    "zeroGhost": true,
+    "zeroCasV1": true
+  }
+}
